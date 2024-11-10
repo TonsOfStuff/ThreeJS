@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { color } from 'three/webgpu';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -10,17 +9,30 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry(5, 5, 5);
-const material = new THREE.MeshBasicMaterial({color: 0xff000})
+//Sphere creation
+const geometry = new THREE.SphereGeometry(5);
+const material = new THREE.MeshBasicMaterial({color: 0x00c5ff})
 
-const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(0,0,1)
-scene.add(pointLight)
 
-const cube = new THREE.Mesh(geometry, material);
+
+var customMaterial = new THREE.ShaderMaterial( 
+{
+  uniforms: {  },
+  vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
+  fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+  side: THREE.BackSide,
+  blending: THREE.AdditiveBlending,
+  transparent: true
+});
+
+const cube = new THREE.Mesh(geometry, customMaterial);
 cube.name = "s";
 scene.add(cube);
 
+//Lights
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(0,0,1)
+scene.add(pointLight)
 
 
 camera.position.z = 7;
@@ -70,9 +82,6 @@ function animate(){
     requestAnimationFrame(animate);
 
     controls.update();
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
 
 
 
