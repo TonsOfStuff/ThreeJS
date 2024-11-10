@@ -52,7 +52,12 @@ function onMouseDown(event) {
   const intersects = raycaster.intersectObjects(scene.children, false);
 
   if (intersects.length > 0) {
-    console.log('Clicked on:', intersects[0].object.name);
+    let filtered = intersects.filter(item => item.object.name != "");
+    if (filtered.length > 0){
+      console.log('Clicked on:', filtered[0]);
+      filtered[0].object.material.color = {b: 0.01, g: 0.23, isColor: true, r: 0.123};
+    }
+    
   }
 }
 
