@@ -10,7 +10,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 //Sphere creation
-const geometry = new THREE.SphereGeometry(5);
+const geometry = new THREE.SphereGeometry(2);
 const material = new THREE.MeshBasicMaterial({color: 0x00c5ff})
 
 
@@ -25,9 +25,15 @@ var customMaterial = new THREE.ShaderMaterial(
   transparent: true
 });
 
-const cube = new THREE.Mesh(geometry, customMaterial);
-cube.name = "s";
-scene.add(cube);
+for (let i = 0; i <= 15; i++){
+  const star = new THREE.Mesh(geometry, customMaterial);
+  star.name = "s";
+  star.position.x = Math.random() * 200 - Math.random() * 200
+  star.position.y = Math.random() * 200 - Math.random() * 200
+  star.position.z = Math.random() * 200 - Math.random() * 200
+  scene.add(star);
+}
+
 
 //Lights
 const pointLight = new THREE.PointLight(0xffffff);
