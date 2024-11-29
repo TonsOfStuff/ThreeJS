@@ -25,12 +25,12 @@ var customMaterial = new THREE.ShaderMaterial(
   transparent: true
 });
 
-for (let i = 0; i <= 15; i++){
+for (let i = 0; i <= 50; i++){
   const star = new THREE.Mesh(geometry, customMaterial);
   star.name = "s";
-  star.position.x = Math.random() * 200 - Math.random() * 200
-  star.position.y = Math.random() * 200 - Math.random() * 200
-  star.position.z = Math.random() * 200 - Math.random() * 200
+  star.position.x = Math.random() * 500 - Math.random() * 500
+  star.position.y = Math.random() * 500 - Math.random() * 500
+  star.position.z = Math.random() * 500 - Math.random() * 500
   scene.add(star);
 }
 
