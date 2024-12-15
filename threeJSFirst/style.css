@@ -1,8 +1,10 @@
 #starUI{
     position: absolute;
     color: white;
-    background-color: blue;
+    background-color: rgba(62, 162, 255, 0.386);
 
-    height: 25%;
-    width: 150px;
+    height: 35%;
+    width: 200px;
+
+    padding: 5px;
 }
