@@ -9,9 +9,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
+const sizeOfUniverse = 500;
+
 
 //UI
 const starInfoUI = document.getElementById("starUI");
+starInfoUI.style.display = "none";
 
 
 //Colors
@@ -26,10 +29,10 @@ const material = new THREE.MeshBasicMaterial({color: yellow})
 
 for (let i = 0; i <= 50; i++){
   const star = new THREE.Mesh(geometry, material);
-  star.name = "s";
-  star.position.x = Math.random() * 100 - Math.random() * 100
-  star.position.y = Math.random() * 100 - Math.random() * 100
-  star.position.z = Math.random() * 100 - Math.random() * 100
+  star.name = i.toString();
+  star.position.x = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
+  star.position.y = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
+  star.position.z = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
   scene.add(star);
 }
 
@@ -72,7 +75,8 @@ function onMouseDown(event) {
     let filtered = intersects.filter(item => item.object.name != "");
     if (filtered.length > 0){
       console.log('Clicked on:', filtered[0]);
-      starInfoUI.innerText = "Wh"
+      starInfoUI.style.display = "block"
+      starInfoUI.innerText = filtered[0].object.name;
     }
     
   }
