@@ -2,19 +2,21 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const sizeOfUniverse = 500;
+const sizeOfUniverse = 1700;
 
 
 //UI
-const starInfoUI = document.getElementById("starUI");
-starInfoUI.style.display = "none";
+const starInfoUI = document.getElementById("starInfo");
+
+const starUI = document.getElementById("starUI")
+starUI.style.display = "none";
 
 
 //Colors
@@ -27,7 +29,7 @@ const geometry = new THREE.SphereGeometry(2);
 const material = new THREE.MeshBasicMaterial({color: yellow})
 
 
-for (let i = 0; i <= 50; i++){
+for (let i = 0; i <= 1000; i++){
   const star = new THREE.Mesh(geometry, material);
   star.name = i.toString();
   star.position.x = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
@@ -75,7 +77,7 @@ function onMouseDown(event) {
     let filtered = intersects.filter(item => item.object.name != "");
     if (filtered.length > 0){
       console.log('Clicked on:', filtered[0]);
-      starInfoUI.style.display = "block"
+      starUI.style.display = "grid"
       starInfoUI.innerText = filtered[0].object.name;
     }
     
