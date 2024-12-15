@@ -9,28 +9,27 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
+
+//UI
+const starInfoUI = document.getElementById("starUI");
+
+
+//Colors
+const blue = new THREE.Color().setRGB(0, 0, 0.5);
+const yellow = new THREE.Color().setRGB(0.5, 0.7, 0);
+const red = new THREE.Color().setRGB(0.1, 0, 0);
+
 //Sphere creation
 const geometry = new THREE.SphereGeometry(2);
-const material = new THREE.MeshBasicMaterial({color: 0x00c5ff})
+const material = new THREE.MeshBasicMaterial({color: yellow})
 
-
-
-var customMaterial = new THREE.ShaderMaterial( 
-{
-  uniforms: {  },
-  vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
-  fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
-  side: THREE.BackSide,
-  blending: THREE.AdditiveBlending,
-  transparent: true
-});
 
 for (let i = 0; i <= 50; i++){
-  const star = new THREE.Mesh(geometry, customMaterial);
+  const star = new THREE.Mesh(geometry, material);
   star.name = "s";
-  star.position.x = Math.random() * 500 - Math.random() * 500
-  star.position.y = Math.random() * 500 - Math.random() * 500
-  star.position.z = Math.random() * 500 - Math.random() * 500
+  star.position.x = Math.random() * 100 - Math.random() * 100
+  star.position.y = Math.random() * 100 - Math.random() * 100
+  star.position.z = Math.random() * 100 - Math.random() * 100
   scene.add(star);
 }
 
@@ -48,9 +47,9 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.12;
 
 //Helpers
-const gridHelper = new THREE.GridHelper(200,50);
+//const gridHelper = new THREE.GridHelper(200,50);
 const lightHelper = new THREE.PointLightHelper(pointLight);
-scene.add(gridHelper, lightHelper)
+scene.add(lightHelper)
 
 
 
@@ -73,7 +72,7 @@ function onMouseDown(event) {
     let filtered = intersects.filter(item => item.object.name != "");
     if (filtered.length > 0){
       console.log('Clicked on:', filtered[0]);
-      filtered[0].object.material.color = {b: 0.01, g: 0.23, isColor: true, r: 0.123};
+      starInfoUI.innerText = "Wh"
     }
     
   }
