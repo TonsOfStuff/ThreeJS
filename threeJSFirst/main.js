@@ -24,6 +24,12 @@ const starInfoUI = document.getElementById("starInfo");
 const starUI = document.getElementById("starUI")
 starUI.style.display = "none";
 
+const closeUI = document.getElementById("close")
+closeUI.addEventListener("click", () => {
+  starUI.style.display = "none";
+  selected = null;
+})
+
 
 //Colors
 const blue = new THREE.Color().setRGB(0, 0.3, 0.5);
