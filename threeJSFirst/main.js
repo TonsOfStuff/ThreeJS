@@ -129,7 +129,7 @@ function onMouseDown(event) {
       console.log('Clicked on:', filtered[0]);
       selected = filtered[0];
       starUI.style.display = "grid"
-      starInfoUI.innerText = filtered[0].object.name + "\n";
+      starInfoUI.innerText = "Name: " + filtered[0].object.name + "\n";
       starInfoUI.innerText += "Temperature: " + filtered[0].object.userData['temperature'] + "K\n"
       starInfoUI.innerText += "Radius: " + filtered[0].object.userData["radius"] + " Solar Radii\n"
       starInfoUI.innerText += "Mass: " + filtered[0].object.userData["mass"] + " Solar Mass\n"
