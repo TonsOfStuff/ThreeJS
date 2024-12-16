@@ -1,16 +1,19 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
+import { EffectComposer } from 'three/examples/jsm/Addons.js';
+import { RenderPass } from 'three/examples/jsm/Addons.js';
+import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const sizeOfUniverse = 5000;
+const sizeOfUniverse = 10000;
 
 let selected = null;
 
@@ -24,30 +27,58 @@ starUI.style.display = "none";
 
 //Colors
 const blue = new THREE.Color().setRGB(0, 0.3, 0.5);
-const yellow = new THREE.Color().setRGB(0.5, 0.7, 0);
+const yellow = new THREE.Color().setRGB(0.5, 0.2, 0);
 const red = new THREE.Color().setRGB(0.9, 0.2, 0);
+const white = new THREE.Color().setRGB(1, 1, 1);
 
 //Sphere creation
-const geometry = new THREE.SphereGeometry(2);
+const geometry = new THREE.IcosahedronGeometry(1.5, 12);
 
 
 
-for (let i = 0; i <= 10000; i++){
+for (let i = 0; i <= 8000; i++){
   let material = new THREE.MeshBasicMaterial({color: yellow})
-  let rand = Math.round(Math.random() * 5)
-  if (rand == 0){
+  const star = new THREE.Mesh(geometry, material);
+
+  let temp = Math.round(Math.random() * 33000 - Math.random() * 32000) + 2300
+  if (temp > 10000){
+    if (Math.random() * 100 > 1){
+      temp = Math.round(Math.random() * 7000) + 2300
+    }
+  }
+  if (temp <= 2300){
+    temp = 2300
+  }
+  let radius = Math.round((Math.random() * 2 + temp / 10000) * 100) / 100
+  let mass = Math.round((Math.random() * 3 + temp / 2000) * 100) / 100
+
+  star.userData.temperature = temp
+  star.userData.radius = radius
+  star.userData.mass = mass
+
+
+
+  if (temp <= 5000){
     material = new THREE.MeshBasicMaterial({color: red})
-  }else if (rand == 1){
+  }else if (temp <= 7000){
+    material = new THREE.MeshBasicMaterial({color: yellow})
+  }else if (temp <= 10000){
+    material = new THREE.MeshBasicMaterial({color: white})
+  }else if (temp <= 50000){
     material = new THREE.MeshBasicMaterial({color: blue})
   }
 
-    
+  star.material = material
+  star.scale.set(radius, radius, radius)
 
-  const star = new THREE.Mesh(geometry, material);
+
   star.name = i.toString();
   star.position.x = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
   star.position.y = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
   star.position.z = Math.random() * sizeOfUniverse - Math.random() * sizeOfUniverse
+
+
+
   scene.add(star);
 }
 
@@ -92,7 +123,10 @@ function onMouseDown(event) {
       console.log('Clicked on:', filtered[0]);
       selected = filtered[0];
       starUI.style.display = "grid"
-      starInfoUI.innerText = filtered[0].object.name;
+      starInfoUI.innerText = filtered[0].object.name + "\n";
+      starInfoUI.innerText += "Temperature: " + filtered[0].object.userData['temperature'] + "K\n"
+      starInfoUI.innerText += "Radius: " + filtered[0].object.userData["radius"] + " Solar Radii\n"
+      starInfoUI.innerText += "Mass: " + filtered[0].object.userData["mass"] + " Solar Mass\n"
     }
     
   }
@@ -154,7 +188,20 @@ document.addEventListener("keydown", (event) => {
   }
 })
 
+//Bloom
+const renderScene = new RenderPass(scene, camera);
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight), 2, 1, 0.85
+)
+bloomPass.threshold = 0;
+bloomPass.strength = 2;
+bloomPass.radius = 1;
 
+const bloomComposer = new EffectComposer(renderer)
+bloomComposer.setSize(window.innerWidth, window.innerHeight);
+bloomComposer.renderToScreen = true;
+bloomComposer.addPass(renderScene);
+bloomComposer.addPass(bloomPass);
 
 
 
@@ -173,6 +220,8 @@ function animate(){
     renderer.render(scene, camera);
 
     TWEEN.update();
+
+    bloomComposer.render();
 }
 
 animate();
