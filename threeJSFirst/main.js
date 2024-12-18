@@ -6,7 +6,7 @@ import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2500);
 
 const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
